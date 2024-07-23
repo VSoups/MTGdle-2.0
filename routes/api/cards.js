@@ -9,3 +9,4 @@ const ensureLoggedIn = require('../../config/ensureLoggedIn');
 router.get('/search/:cardName', cardsCtrl.getCardByName);
 
 module.exports = router;
+

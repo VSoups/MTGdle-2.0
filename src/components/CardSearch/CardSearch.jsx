@@ -8,12 +8,12 @@ export default function CardSearch({ setSearchCard }) {
     async function search(evt) {
         evt.preventDefault();
         // set card name string format for fuzzy search
-        let inputCard = card.split().join('+');
+        let inputCard = card.split(' ').join('+');
 
         try {
             const fetchCard = await cardsAPI.getCardByName(inputCard);
         }   catch (err) {
-            console.log(err);
+            console.log(`Fetch error: ${err}`);
             setError('Search Error: Card not found');
         }   
     }
