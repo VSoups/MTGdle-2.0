@@ -12,6 +12,7 @@ export default function CardSearch({ setSearchCard }) {
 
         try {
             const fetchCard = await cardsAPI.getCardByName(inputCard);
+            console.log(fetchCard);
         }   catch (err) {
             console.log(`Fetch error: ${err}`);
             setError('Search Error: Card not found');

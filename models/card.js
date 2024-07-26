@@ -19,3 +19,9 @@ const cardSchema = new Schema({
     toJSON: { virtuals: true },
 });
 
+cardSchema.virtual('getSmallImg').get(function() {
+    return this.image_uris.art_crop;
+})
+
+
+module.exports = mongoose.model('Card', cardSchema);
