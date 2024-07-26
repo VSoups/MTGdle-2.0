@@ -1,0 +1,10 @@
+.ImgPreview {
+    width: 30vmin;
+}
+
+.SearchCard {
+    background-color: aliceblue;
+    border: 2px solid black;
+    width: 40vmax;
+    padding: 2rem;
+}

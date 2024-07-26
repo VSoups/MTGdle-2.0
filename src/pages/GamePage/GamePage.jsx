@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './GamePage.css';
 import CardSearch from "../../components/CardSearch/CardSearch";
 
 export default function GamePage() {
@@ -16,6 +17,7 @@ export default function GamePage() {
                 </div>
                 <div className="SearchPreview">
                     {/* Preview image of card */}
+                    <img src={searchCard.image_uris.normal} className="ImgPreview" alt="Card Preview" />
                 </div>
             </section>
         </>
