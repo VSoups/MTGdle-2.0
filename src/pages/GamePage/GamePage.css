@@ -5,6 +5,13 @@
 .SearchCard {
     background-color: aliceblue;
     border: 2px solid black;
-    width: 40vmax;
-    padding: 2rem;
+    width: max-content;
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 1rem;
+}
+
+.SearchPreview {
+    width: max-content;
 }

@@ -11,6 +11,7 @@ const cardSchema = new Schema({
     oracle_text: String,
     color_identity: Array,
     cmc: Number,
+    mana_cost: String,
     keywords: Array,
     legalities: Object,
     rarity: String,

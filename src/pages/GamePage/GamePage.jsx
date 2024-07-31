@@ -12,12 +12,25 @@ export default function GamePage() {
             
             <section className="SearchCard">
                 {/* Input form for card search */}
-                <div className="SearchInput">
+                <div>
                     <CardSearch setSearchCard={setSearchCard} />
+                    { searchCard && (
+                        <div>
+                            <p>Card Name: {searchCard.name}</p>
+                            <p>Type: {searchCard.type_line}</p>
+                            {/* Showing blank for 0 cmc cards */}
+                            <p>Mana Cost: {searchCard.mana_cost}</p>
+                            <p>Keywords:</p>
+                        </div>
+                    )}
                 </div>
                 <div className="SearchPreview">
                     {/* Preview image of card */}
-                    <img src={searchCard.image_uris.normal} className="ImgPreview" alt="Card Preview" />
+                    { searchCard && (
+                        <>
+                            <img src={searchCard.image_uris.normal} className="ImgPreview" alt="Card Preview" />
+                        </>
+                    )}
                 </div>
             </section>
         </>

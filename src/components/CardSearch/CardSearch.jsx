@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './CardSearch.css'
 import * as cardsAPI from '../../utilities/cards-api';
 
 export default function CardSearch({ setSearchCard }) {
@@ -12,11 +13,12 @@ export default function CardSearch({ setSearchCard }) {
 
         try {
             const fetchCard = await cardsAPI.getCardByName(inputCard);
+            if (typeof(fetchCard) === 'string') return setError('Search Error: card not found')
             console.log(fetchCard);
             setSearchCard(fetchCard);
         }   catch (err) {
             console.log(`Fetch error: ${err}`);
-            setError('Search Error: Card not found');
+            setError('Search Error: API Error');
         }   
     }
 
@@ -26,7 +28,7 @@ export default function CardSearch({ setSearchCard }) {
     }
 
     return (
-        <form onSubmit={search} className="CardSearch">
+        <form onSubmit={search} className="SearchInput">
             <input type="text" name="name" onChange={handleInput} placeholder="Enter a card name" />
             <button type="submit">Search</button>
             <p>{error}</p>
