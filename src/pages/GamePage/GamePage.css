@@ -8,10 +8,32 @@
     width: max-content;
     padding: 3rem;
     display: grid;
-    grid-template-columns: 1fr 1.25fr;
-    gap: 1rem;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
+    /* gap: 1rem; */
+    margin: 0 auto;
 }
 
 .SearchPreview {
     width: max-content;
+}
+
+.LegalityList {
+    list-style-type: none;
+    text-align: left;
+
+    > li {
+        margin: 5px 0;
+    }
+}
+
+.SearchConfirm {
+    grid-column: 1 / end;
+
+    > button:first-of-type {
+        background-color: green;
+    }
+    > button:last-of-type {
+        background-color: red;
+    }
 }
