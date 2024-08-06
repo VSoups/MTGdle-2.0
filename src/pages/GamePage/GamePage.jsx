@@ -7,6 +7,9 @@ export default function GamePage() {
     const [searchCard, setSearchCard] = useState(null);
     // contains card legalities so only relevant formats are listed/tracked
     const [cardLegals, setCardLegals] = useState(null);
+    // clicking cancel clears searchbar text
+    const [cancelClicked, setCancelClicked] = useState(false);
+    // ICEBOX: Add state to allow changing preview img art (dropdown)
     // format value colors
     const FORMAT_COLOR = {
         'legal': 'green',
@@ -25,6 +28,9 @@ export default function GamePage() {
             const filterLegs = allLegs.filter(([key]) =>
                 formatNames.includes(key)
             );
+
+            // after successful search, reset cancel so it can be used again
+            setCancelClicked(false);
             
             // loop over legalities array and save to state so code is dry
             const newLegs = {};
@@ -35,9 +41,10 @@ export default function GamePage() {
         } else setCardLegals(null);
     }, [searchCard]);
 
-    function clearCard() {
+    function cancelBtn() {
         setSearchCard(null);
-        // clear search bar in CardSearch component
+        // cancel clears searchbar in CardSearch component
+        setCancelClicked(true);
     }
 
     return (
@@ -46,22 +53,22 @@ export default function GamePage() {
             
             <section className="SearchCard">
                 {/* Input form for card search */}
-                <div>
-                    <CardSearch setSearchCard={setSearchCard} />
+                <div style={{ marginRight: searchCard ? '2rem' : '0' }}>
+                    <CardSearch setSearchCard={setSearchCard} cancelClicked={cancelClicked} setCancelClicked={setCancelClicked} />
                     { searchCard && (
-                        <div>
-                            <p>Card Name: {searchCard.name}</p>
-                            <p>Type: {searchCard.type_line}</p>
-                            <p>Mana Cost: {searchCard.mana_cost || "None"}</p>
+                        <div className="CardInfo">
+                            <p><span className="InfoHeader">Card Name:</span> {searchCard.name}</p>
+                            <p><span className="InfoHeader">Type:</span> {searchCard.type_line}</p>
+                            <p><span className="InfoHeader">Mana Cost:</span> {searchCard.mana_cost || "None"}</p>
                             {/* fix listing & add "None" alt */}
-                            <p>Keywords: {searchCard.keywords.map(kw => (
-                                `| ${kw} |`
+                            <p><span className="InfoHeader">Keywords:</span> {searchCard.keywords.map(kw => (
+                                `${kw} | `
                             ))}</p>
                             {/* taken from useEffect */}
-                            <p>Legalities:</p>
+                            <p><span className="InfoHeader">Legalities:</span></p>
                             { cardLegals && (
                                 <ul className="LegalityList">
-                                    {/* might break if empty? */}
+                                    {/* BUG: Capitalize format name and remove underscore from "not_legal" */}
                                     { Object.entries(cardLegals).map(([key, value]) => 
                                         <li>{key}: <span style={{ color: FORMAT_COLOR[value] || 'black' }}>{value}</span></li>
                                     ) }
@@ -79,7 +86,7 @@ export default function GamePage() {
                 </div>
                 <div className="SearchConfirm">
                     <button>Guess</button>
-                    <button onClick={clearCard}>Cancel</button>
+                    <button onClick={cancelBtn}>Cancel</button>
                 </div>
             </section>
         </>

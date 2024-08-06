@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './CardSearch.css'
 import * as cardsAPI from '../../utilities/cards-api';
 
-export default function CardSearch({ setSearchCard }) {
+export default function CardSearch({ setSearchCard, cancelClicked, setCancelClicked }) {
     const [card, setCard] = useState('');
     const [error, setError] = useState('');
 
@@ -12,15 +12,23 @@ export default function CardSearch({ setSearchCard }) {
         let inputCard = card.split(' ').join('+');
 
         try {
+            // REFACTOR: check mongoDB first to not overload fetch calls
             const fetchCard = await cardsAPI.getCardByName(inputCard);
             if (typeof(fetchCard) === 'string') return setError('Search Error: card not found')
             console.log(fetchCard);
             setSearchCard(fetchCard);
+            setError('');
         }   catch (err) {
             console.log(`Fetch error: ${err}`);
-            setError('Search Error: API Error');
+            setError('API Error');
         }   
     }
+
+    useEffect(() => {
+        if (cancelClicked) setCard('');
+        setCancelClicked(false);
+        setError('');
+    }, [cancelClicked]);
 
     function handleInput(evt) {
         const cardName = evt.target.value;
@@ -29,7 +37,7 @@ export default function CardSearch({ setSearchCard }) {
 
     return (
         <form onSubmit={search} className="SearchInput">
-            <input type="text" name="name" onChange={handleInput} placeholder="Enter a card name" />
+            <input type="text" name="name" onChange={handleInput} placeholder="Enter a card name" value={card} required />
             <button type="submit">Search</button>
             <p>{error}</p>
         </form>

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// MAJOR BUG: Crashing when searching multiface/flip cards
 
 const cardSchema = new Schema({
     name: { type: String, reqired: true },
@@ -15,6 +16,7 @@ const cardSchema = new Schema({
     keywords: Array,
     legalities: Object,
     rarity: String,
+    artist: String,
 }, {
     timestamps: true,
     toJSON: { virtuals: true },

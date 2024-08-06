@@ -12,15 +12,25 @@
     grid-template-rows: 1fr auto;
     /* gap: 1rem; */
     margin: 0 auto;
+    border-radius: 10%;
+
+    > div:first-child {
+        margin-right: 2rem;
+    }
 }
 
 .SearchPreview {
     width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .LegalityList {
     list-style-type: none;
     text-align: left;
+    width: max-content;
+    padding-left: 0;
 
     > li {
         margin: 5px 0;
@@ -36,4 +46,17 @@
     > button:last-of-type {
         background-color: red;
     }
+}
+
+.CardInfo {
+    min-width: 15rem;
+    max-width: 20rem;
+
+    > p {
+        text-align: start;
+    }
+}
+
+.InfoHeader {
+    font-weight: bold;
 }

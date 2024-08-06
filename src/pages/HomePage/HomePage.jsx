@@ -10,7 +10,7 @@ export default function HomePage() {
             <hr />
 
             <section>
-                <Link to="/game">MTGdle</Link>
+                <Link to="/game">MTGdle Unlimited</Link>
             </section>
         </>
     );
