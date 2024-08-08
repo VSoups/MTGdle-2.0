@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // MAJOR BUG: Crashing when searching multiface/flip cards
+// Separate image_uris (obj) and card_faces (arr)
 
 const cardSchema = new Schema({
     name: { type: String, reqired: true },
