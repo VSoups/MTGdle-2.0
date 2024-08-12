@@ -11,6 +11,9 @@ async function getCardByName(req, res) {
     // console.log(`Card id ---- ${fetchCard.id} ----`);
     const card = await Card.findOne({id: fetchCard.id});
 
+    // if card is not in DB, need to fetch oldest release through this poperty and manually add to saved object
+    // prints_search_uri: String // separate fetch for array of all reprint objects ordered from newest to oldest
+
     // Search DB for preexisting card object
 
     // // Return data to front end (if/else)
