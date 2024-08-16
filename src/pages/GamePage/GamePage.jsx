@@ -22,18 +22,6 @@ export default function GamePage() {
 
     useEffect(() => {
         if (searchCard) {
-            // after successful search, reset cancel so it can be used again
-            setCancelClicked(false);
-
-            // BUG: not switching back to 'front' when changing cards
-            // after successful search, reset flip btn
-            setFlip('front');
-
-        }
-    }, [searchCard]);
-
-    useEffect(() => {
-        if (searchCard) {
             // potentially change or move for user customization (game settings)
             const formatNames = ['standard', 'commander', 'legacy', 'modern', 'pauper', 'pioneer', 'vintage'];
             // legality object shorthand
@@ -42,6 +30,12 @@ export default function GamePage() {
             const filterLegs = allLegs.filter(([key]) =>
                 formatNames.includes(key)
             );
+
+            // after successful search, reset cancel so it can be used again
+            setCancelClicked(false);
+
+            // after successful search, reset flip btn
+            setFlip('front');
             
             // loop over legalities array and save to state so code is dry
             const newLegs = {};
@@ -69,7 +63,7 @@ export default function GamePage() {
             <section className="SearchCard">
                 {/* Input form for card search */}
                 <div style={{ marginRight: searchCard ? '2rem' : '0' }}>
-                    <CardSearch setSearchCard={setSearchCard} cancelClicked={cancelClicked} setCancelClicked={setCancelClicked} />
+                    <CardSearch setSearchCard={setSearchCard} cancelClicked={cancelClicked} setCancelClicked={setCancelClicked} setFlip={setFlip} />
                     { searchCard && (
                         <div className="CardInfo">
                             <p><span className="InfoHeader">Card Name:</span> {searchCard.name}</p>

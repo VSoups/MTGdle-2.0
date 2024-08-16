@@ -12,6 +12,9 @@ async function getCardByName(req, res) {
 
     try {
         if (card) {
+            // MAJOR BUG: card not being found in DB even though it exists, 
+            // instead creating multiple objects
+
             console.log('Card found in DB: ', card.name)
             res.json(card)
         } else {
