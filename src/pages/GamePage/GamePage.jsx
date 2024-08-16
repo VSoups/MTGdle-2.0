@@ -9,6 +9,8 @@ export default function GamePage() {
     const [cardLegals, setCardLegals] = useState(null);
     // clicking cancel clears searchbar text
     const [cancelClicked, setCancelClicked] = useState(false);
+    // state for flipping double sided card img (default: 'front')
+    const [flip, setFlip] = useState('front');
     // ICEBOX: Add state to allow changing preview img art (dropdown)
     // format value colors
     const FORMAT_COLOR = {
@@ -20,6 +22,18 @@ export default function GamePage() {
 
     useEffect(() => {
         if (searchCard) {
+            // after successful search, reset cancel so it can be used again
+            setCancelClicked(false);
+
+            // BUG: not switching back to 'front' when changing cards
+            // after successful search, reset flip btn
+            setFlip('front');
+
+        }
+    }, [searchCard]);
+
+    useEffect(() => {
+        if (searchCard) {
             // potentially change or move for user customization (game settings)
             const formatNames = ['standard', 'commander', 'legacy', 'modern', 'pauper', 'pioneer', 'vintage'];
             // legality object shorthand
@@ -28,9 +42,6 @@ export default function GamePage() {
             const filterLegs = allLegs.filter(([key]) =>
                 formatNames.includes(key)
             );
-
-            // after successful search, reset cancel so it can be used again
-            setCancelClicked(false);
             
             // loop over legalities array and save to state so code is dry
             const newLegs = {};
@@ -45,6 +56,10 @@ export default function GamePage() {
         setSearchCard(null);
         // cancel clears searchbar in CardSearch component
         setCancelClicked(true);
+    }
+
+    function toggleFlip() {
+        flip === 'front' ? setFlip('back') : setFlip('front');
     }
 
     return (
@@ -81,8 +96,13 @@ export default function GamePage() {
                     {/* Preview image of card */}
                     { searchCard && (
                         // add card back image when card state is empty
-                        <img src={searchCard.image_uris.normal} className="ImgPreview" alt="Card Preview" />
+                        <img src={searchCard.image_uris[flip].normal} className="ImgPreview" alt="Card Preview" />
                     )}
+                    {/* flip for multisided cards */}
+                    { searchCard && searchCard.image_uris.back && (
+                        <button onClick={toggleFlip}>Flip ↺</button>
+                    )}
+                    {/* REFACTOR: flip for rotating/horizontal cards */}
                 </div>
                 <div className="SearchConfirm">
                     <button>Guess</button>

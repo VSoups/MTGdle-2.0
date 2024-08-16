@@ -12,7 +12,7 @@ async function getCardByName(req, res) {
 
     try {
         if (card) {
-            console.log('Card in DB: ', card.name)
+            console.log('Card found in DB: ', card.name)
             res.json(card)
         } else {
             // fetch third part api json
@@ -27,11 +27,11 @@ async function getCardByName(req, res) {
                 // add the new object to the json
                 fetchCard.image_uris = extractedImgs;
             } else {
-                console.log('--- at line 30 ---')
+                // if image_uris exists, nest the array within a 'front' property for consistency
                 const Imgs = fetchCard.image_uris;
-
-                // BUG: 'BSONError: cyclic dependency detected'
-                // fetchCard.image_uris.front = Imgs;
+                fetchCard.image_uris = {
+                    front: Imgs,
+                };
             }
             // save to db
             const newCard = await Card.create(fetchCard);
