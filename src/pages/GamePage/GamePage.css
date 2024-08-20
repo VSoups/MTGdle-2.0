@@ -26,17 +26,6 @@
     justify-content: center;
 }
 
-.LegalityList {
-    list-style-type: none;
-    text-align: left;
-    width: max-content;
-    padding-left: 0;
-
-    > li {
-        margin: 5px 0;
-    }
-}
-
 .SearchConfirm {
     grid-column: 1 / end;
 
@@ -55,10 +44,6 @@
     > p {
         text-align: start;
     }
-}
-
-.InfoHeader {
-    font-weight: bold;
 }
 
 #artSelect {

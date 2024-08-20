@@ -1,0 +1,14 @@
+.LegalityList {
+    list-style-type: none;
+    text-align: left;
+    width: max-content;
+    padding-left: 0;
+
+    > li {
+        margin: 5px 0;
+    }
+}
+
+.InfoHeader {
+    font-weight: bold;
+}

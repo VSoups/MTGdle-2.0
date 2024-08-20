@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import './GamePage.css';
 import CardSearch from "../../components/CardSearch/CardSearch";
+import CardAttributes from "../../components/CardAttributes/CardAttributes";
 
 export default function GamePage() {
     // state containing user card input object
@@ -63,8 +64,6 @@ export default function GamePage() {
     }
 
     function artSelect(evt) {
-        console.log(evt.target.value);
-        console.log(`searchCard${evt.target.value}${flip}.normal`)
         setImageSelect(evt.target.value);
     }
 
@@ -78,25 +77,7 @@ export default function GamePage() {
                     <CardSearch setSearchCard={setSearchCard} cancelClicked={cancelClicked} setCancelClicked={setCancelClicked} setFlip={setFlip} setImageSelect={setImageSelect} />
                     { searchCard && (
                         <div className="CardInfo">
-                            <p><span className="InfoHeader">Card Name:</span> {searchCard.name}</p>
-                            <p><span className="InfoHeader">First Printing:</span> {searchCard.first_print.release_date}</p>
-                            <p><span className="InfoHeader">Origin Set:</span> {searchCard.first_print.set_name}</p>
-                            <p><span className="InfoHeader">Type:</span> {searchCard.type_line}</p>
-                            <p><span className="InfoHeader">Mana Cost:</span> {searchCard.mana_cost || "None"}</p>
-                            {/* fix listing & add "None" alt */}
-                            <p><span className="InfoHeader">Keywords:</span> {searchCard.keywords.map(kw => (
-                                `${kw} | `
-                            ))}</p>
-                            {/* taken from useEffect */}
-                            <p><span className="InfoHeader">Legalities:</span></p>
-                            { cardLegals && (
-                                <ul className="LegalityList">
-                                    {/* BUG: Capitalize format name and remove underscore from "not_legal" */}
-                                    { Object.entries(cardLegals).map(([key, value]) => 
-                                        <li>{key}: <span style={{ color: FORMAT_COLOR[value] || 'black' }}>{value}</span></li>
-                                    ) }
-                                </ul>
-                            )}
+                            <CardAttributes searchCard={searchCard} cardLegals={cardLegals} FORMAT_COLOR={FORMAT_COLOR} />
                         </div>
                     )}
                 </div>
@@ -111,11 +92,11 @@ export default function GamePage() {
                         <button onClick={toggleFlip}>Flip ↺</button>
                     )}
                     {/* REFACTOR: rotate button for horizontal/upside down cards */}
-                    {/* dropdown art select if different */}
                     {/* BUG: select not resetting to "new" when changing cards */}
                     { searchCard && (searchCard.image_uris.front.normal !== searchCard.first_print.image_uris.front.normal) && (
                         <select onChange={artSelect} id="artSelect">
-                            <option value="new">{searchCard.set_name}</option>
+                            {/* REFACTOR: add set symbol to option text */}
+                            <option value="new" >{searchCard.set_name}</option>
                             <option value="old">{searchCard.first_print.set_name}</option>
                         </select>
                     )}
