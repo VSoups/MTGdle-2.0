@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './CardSearch.css'
 import * as cardsAPI from '../../utilities/cards-api';
 
-export default function CardSearch({ setSearchCard, cancelClicked, setCancelClicked, setFlip }) {
+export default function CardSearch({ setSearchCard, cancelClicked, setCancelClicked, setFlip, setImageSelect }) {
     const [card, setCard] = useState('');
     const [error, setError] = useState('');
 
@@ -12,10 +12,10 @@ export default function CardSearch({ setSearchCard, cancelClicked, setCancelClic
         let inputCard = card.split(' ').join('+');
 
         try {
-            // REFACTOR: check mongoDB first to not overload fetch calls
             const fetchCard = await cardsAPI.getCardByName(inputCard);
-            // update flip state or else crash
+            // update flip and imageSelect states or else crash
             setFlip('front');
+            setImageSelect('new');
             if (typeof(fetchCard) === 'string') return setError('Search Error: card not found')
             console.log(fetchCard);
             setSearchCard(fetchCard);

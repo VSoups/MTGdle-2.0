@@ -5,76 +5,62 @@ module.exports = {
 };
 
 async function getCardByName(req, res) {
-    const fuzzyName = req.params.cardName.split('+').join(' ');
-    console.log(`--- fuzzyName: ${fuzzyName} ---`);
+    // REFACTOR: find a way to reduce total number of fetches for efficiency 
+    // fetch third part api json
+    const fetchCard = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${req.params.cardName}`)
+    .then(res => res.json());
     // checking if card is already in DB
-    const card = await Card.findOne({name: fuzzyName});
+    const card = await Card.findOne({ id: fetchCard.id });
+    // extract first print info
+    const originCard = await fetch(`${fetchCard.prints_search_uri}`).then(res => res.json())
+    .then(fullPrintList => fullPrintList.data.at(-1)); // take only last item from json data list
 
-    try {
-        if (card) {
-            // MAJOR BUG: card not being found in DB even though it exists, 
-            // instead creating multiple objects
-
-            console.log('Card found in DB: ', card.name)
-            res.json(card)
-        } else {
-            // fetch third part api json
-            const fetchCard = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${req.params.cardName}`)
-            .then(res => res.json());
-            if (!fetchCard.image_uris) {
-                // extract image_uris objects from each side and create a new object to contain them
-                const extractedImgs = {
-                    front: fetchCard.card_faces[0].image_uris,
-                    back: fetchCard.card_faces[1].image_uris,
-                };
-                // add the new object to the json
-                fetchCard.image_uris = extractedImgs;
-            } else {
-                // if image_uris exists, nest the array within a 'front' property for consistency
-                const Imgs = fetchCard.image_uris;
-                fetchCard.image_uris = {
-                    front: Imgs,
-                };
+    if (card) { // card in db
+        console.log('Card found in DB: ', card.name);
+        res.json(card);
+    } else if (!card && fetchCard) { // create new card in db
+        if (!fetchCard.image_uris) { // extract image_uris from card_faces prop
+            // extract image_uris objects from each side and create a new object to contain them
+            const extractedImgs = {
+                front: fetchCard.card_faces[0].image_uris,
+                back: fetchCard.card_faces[1].image_uris,
+            };
+            const originInfo = {
+                release_date: originCard.released_at,
+                artist: originCard.artist,
+                card_faces: originCard.card_faces,
+                image_uris: {
+                    front: originCard.card_faces[0].image_uris,
+                    back: originCard.card_faces[1].image_uris,
+                },
+                set_name: originCard.set_name,
             }
-            // save to db
-            const newCard = await Card.create(fetchCard);
-            console.log('Card created: ', newCard.name);
-            res.json(newCard);
+            // add the new object to the json
+            fetchCard.image_uris = extractedImgs;
+            fetchCard.first_print = originInfo;
+        } else {
+            // if image_uris exists, nest the array within a 'front' property for consistency
+            const Imgs = fetchCard.image_uris;
+            fetchCard.image_uris = {
+                front: Imgs,
+            };
+            const originInfo = {
+                release_date: originCard.released_at,
+                artist: originCard.artist,
+                image_uris: {
+                    front: originCard.image_uris,
+                },
+                set_name: originCard.set_name,
+            }
+            fetchCard.first_print = originInfo;
         }
-    } catch (error) {
+
+        // save to db
+        const newCard = await Card.create(fetchCard);
+        console.log('Card created: ', newCard.name);
+        res.json(newCard);
+    } else { // no card in db or api
         console.log(error);
         res.json('Card not found');
     }
-
-
-
-
-
-//     // REFACTOR: need to check DB before fetching json to minimize total fetch calls
-//     // fetch card json from Scryfall
-//     const fetchCard = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${req.params.cardName}`)
-//     .then(res => res.json()).then(card => card); 
-//     // console.log(`Card id ---- ${fetchCard.id} ----`);
-//     const card = await Card.findOne({id: fetchCard.id});
-
-//     // if card is not in DB, need to fetch oldest release through this poperty and manually add to saved object
-//     // const reprintListURI = fetchCard.prints_search_uri // (string) // separate fetch for array of all reprint objects ordered from newest to oldest
-
-//     // Search DB for preexisting card object
-
-//     // Return data to front end (if/else)
-//     if (!card && !!fetchCard.id) {
-//         const newCard = await Card.create(fetchCard);
-//         console.log('Card created: ', newCard.name);
-//         res.json(newCard);
-//     // Find card in db if it does exist
-//     } else if (card)  {
-//         // const newCard = await Card.findOne({id: fetchCard.id});
-//         console.log('Card found: ', card.name)
-//         res.json(card);
-//     // User input invalid
-//     } else {
-//         console.log('Card not found');
-//         res.json('Card not found')
-//     }
 }

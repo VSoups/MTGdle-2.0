@@ -60,3 +60,7 @@
 .InfoHeader {
     font-weight: bold;
 }
+
+#artSelect {
+    margin: 0.25rem 0;
+}

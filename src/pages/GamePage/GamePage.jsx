@@ -9,8 +9,10 @@ export default function GamePage() {
     const [cardLegals, setCardLegals] = useState(null);
     // clicking cancel clears searchbar text
     const [cancelClicked, setCancelClicked] = useState(false);
-    // state for flipping double sided card img (default: 'front')
+    // state for flipping double sided card img
     const [flip, setFlip] = useState('front');
+    // state for image preview select
+    const [imageSelect, setImageSelect] = useState('new');
     // ICEBOX: Add state to allow changing preview img art (dropdown)
     // format value colors
     const FORMAT_COLOR = {
@@ -19,6 +21,11 @@ export default function GamePage() {
         'banned': 'red',
         'restricted': 'blue',
     };
+    // image selector values
+    const IMAGES = {
+        'new': (searchCard) ? searchCard.image_uris[flip].normal : null,
+        'old': (searchCard) ? searchCard.first_print.image_uris[flip].normal : null
+    }
 
     useEffect(() => {
         if (searchCard) {
@@ -31,11 +38,10 @@ export default function GamePage() {
                 formatNames.includes(key)
             );
 
-            // after successful search, reset cancel so it can be used again
+            // after successful search, reset interactable states
             setCancelClicked(false);
-
-            // after successful search, reset flip btn
             setFlip('front');
+            setImageSelect('new');
             
             // loop over legalities array and save to state so code is dry
             const newLegs = {};
@@ -56,6 +62,12 @@ export default function GamePage() {
         flip === 'front' ? setFlip('back') : setFlip('front');
     }
 
+    function artSelect(evt) {
+        console.log(evt.target.value);
+        console.log(`searchCard${evt.target.value}${flip}.normal`)
+        setImageSelect(evt.target.value);
+    }
+
     return (
         <>
             <h1>MTGdle</h1>
@@ -63,10 +75,12 @@ export default function GamePage() {
             <section className="SearchCard">
                 {/* Input form for card search */}
                 <div style={{ marginRight: searchCard ? '2rem' : '0' }}>
-                    <CardSearch setSearchCard={setSearchCard} cancelClicked={cancelClicked} setCancelClicked={setCancelClicked} setFlip={setFlip} />
+                    <CardSearch setSearchCard={setSearchCard} cancelClicked={cancelClicked} setCancelClicked={setCancelClicked} setFlip={setFlip} setImageSelect={setImageSelect} />
                     { searchCard && (
                         <div className="CardInfo">
                             <p><span className="InfoHeader">Card Name:</span> {searchCard.name}</p>
+                            <p><span className="InfoHeader">First Printing:</span> {searchCard.first_print.release_date}</p>
+                            <p><span className="InfoHeader">Origin Set:</span> {searchCard.first_print.set_name}</p>
                             <p><span className="InfoHeader">Type:</span> {searchCard.type_line}</p>
                             <p><span className="InfoHeader">Mana Cost:</span> {searchCard.mana_cost || "None"}</p>
                             {/* fix listing & add "None" alt */}
@@ -90,13 +104,21 @@ export default function GamePage() {
                     {/* Preview image of card */}
                     { searchCard && (
                         // add card back image when card state is empty
-                        <img src={searchCard.image_uris[flip].normal} className="ImgPreview" alt="Card Preview" />
+                        <img src={IMAGES[imageSelect]} className="ImgPreview" alt="Card Preview" />
                     )}
                     {/* flip for multisided cards */}
                     { searchCard && searchCard.image_uris.back && (
                         <button onClick={toggleFlip}>Flip ↺</button>
                     )}
-                    {/* REFACTOR: flip for rotating/horizontal cards */}
+                    {/* REFACTOR: rotate button for horizontal/upside down cards */}
+                    {/* dropdown art select if different */}
+                    {/* BUG: select not resetting to "new" when changing cards */}
+                    { searchCard && (searchCard.image_uris.front.normal !== searchCard.first_print.image_uris.front.normal) && (
+                        <select onChange={artSelect} id="artSelect">
+                            <option value="new">{searchCard.set_name}</option>
+                            <option value="old">{searchCard.first_print.set_name}</option>
+                        </select>
+                    )}
                 </div>
                 <div className="SearchConfirm">
                     <button>Guess</button>
