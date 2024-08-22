@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import './GamePage.css';
 import CardSearch from "../../components/CardSearch/CardSearch";
 import CardAttributes from "../../components/CardAttributes/CardAttributes";
+import SearchPreview from "../../components/SearchPreview/SearchPreview";
 
 export default function GamePage() {
     // state containing user card input object
@@ -83,23 +84,7 @@ export default function GamePage() {
                 </div>
                 <div className="SearchPreview">
                     {/* Preview image of card */}
-                    { searchCard && (
-                        // add card back image when card state is empty
-                        <img src={IMAGES[imageSelect]} className="ImgPreview" alt="Card Preview" />
-                    )}
-                    {/* flip for multisided cards */}
-                    { searchCard && searchCard.image_uris.back && (
-                        <button onClick={toggleFlip}>Flip ↺</button>
-                    )}
-                    {/* REFACTOR: rotate button for horizontal/upside down cards */}
-                    {/* BUG: select not resetting to "new" when changing cards */}
-                    { searchCard && (searchCard.image_uris.front.normal !== searchCard.first_print.image_uris.front.normal) && (
-                        <select onChange={artSelect} id="artSelect">
-                            {/* REFACTOR: add set symbol to option text */}
-                            <option value="new" >{searchCard.set_name}</option>
-                            <option value="old">{searchCard.first_print.set_name}</option>
-                        </select>
-                    )}
+                    <SearchPreview searchCard={searchCard} toggleFlip={toggleFlip} artSelect={artSelect} IMAGES={IMAGES} imageSelect={imageSelect} />
                 </div>
                 <div className="SearchConfirm">
                     <button>Guess</button>
