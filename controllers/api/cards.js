@@ -2,6 +2,7 @@ const Card = require('../../models/card');
 
 module.exports = {
     getCardByName,
+    generateRandCard,
 };
 
 async function getCardByName(req, res) {
@@ -63,4 +64,11 @@ async function getCardByName(req, res) {
         console.log(error);
         res.json('Card not found');
     }
+}
+
+
+function generateRandCard(req, res) {
+    // api doc page: https://scryfall.com/docs/api/cards/collector
+    // fetch request format: https://api.scryfall.com/cards/xln/96
+    // randomize set acronym and card number
 }

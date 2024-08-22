@@ -3,6 +3,9 @@ import './GamePage.css';
 import CardSearch from "../../components/CardSearch/CardSearch";
 import CardAttributes from "../../components/CardAttributes/CardAttributes";
 import SearchPreview from "../../components/SearchPreview/SearchPreview";
+import GameGrid from "../../components/GameGrid/GameGrid";
+import PostGameStats from "../../components/PostGameStats/PostGameStats";
+import GameSettings from "../../components/GameSettings/GameSettings";
 
 export default function GamePage() {
     // state containing user card input object
@@ -70,8 +73,12 @@ export default function GamePage() {
 
     return (
         <>
-            <h1>MTGdle</h1>
+            <h1>MTGdle Unlimited</h1>
             
+            <section className="GameSettings">
+                {/* Move start button here? */}
+                <GameSettings />
+            </section>
             <section className="SearchCard">
                 {/* Input form for card search */}
                 <div style={{ marginRight: searchCard ? '2rem' : '0' }}>
@@ -90,6 +97,14 @@ export default function GamePage() {
                     <button>Guess</button>
                     <button onClick={cancelBtn}>Cancel</button>
                 </div>
+            </section>
+            <section className="GameGrid">
+                {/* Card attribute comparison display (grid format) */}
+                <GameGrid />
+            </section>
+            <section className="PostGameStats">
+                {/* Hidden card reveal plus game stats */}
+                <PostGameStats />
             </section>
         </>
     );
