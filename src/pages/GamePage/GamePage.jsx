@@ -75,6 +75,7 @@ export default function GamePage() {
         <>
             <h1>MTGdle Unlimited</h1>
             
+            <button>Start Game</button>
             <section className="GameSettings">
                 {/* Move start button here? */}
                 <GameSettings />

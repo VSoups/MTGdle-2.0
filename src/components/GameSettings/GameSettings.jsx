@@ -13,28 +13,27 @@ export default function GameSettings() {
         if (!evt.target.checked) {
             // Make a new list of everything except the unchecked item
             newList = setIncludes.filter(val => val !== inputVal);
-            console.log(`Item Removed: ${inputVal}`);
+            // console.log(`Item Removed: ${inputVal}`);
         } else {
             newList = [...setIncludes, inputVal];
-            console.log(`Item Added: ${inputVal}`);
+            // console.log(`Item Added: ${inputVal}`);
         }
 
         // update state with new copy
         setSetIncludes(newList);
-        console.log(`New List: ${newList}`);
+        // console.log(`New List: ${newList}`);
     }
 
     return (
         <div className="SettingsMenu">
-            <button>Start Game</button>
-            <form action="" className="GameSettings">
-                <section className="setSelect">
-                    <legend>Select Sets to include</legend>
+            <form action="" className="SettingsForm">
+                <section className="SetSelect">
+                    <h3>Select Sets to include:</h3>
                     { Sets.map((set, key) => 
-                        <>
-                            <input type="checkbox" value={set.acronym} onChange={handleSet} id={set.acronym} key={key} />
+                        <div className="SetSelectOption">
                             <label htmlFor={set.acronym}>{set.name}</label>
-                        </>
+                            <input type="checkbox" value={set.acronym} onChange={handleSet} id={set.acronym} key={key} />
+                        </div>
                     )}
                 </section>
             </form>
