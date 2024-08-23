@@ -11,7 +11,13 @@ async function getCardByName(req, res) {
     const fetchCard = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${req.params.cardName}`)
     .then(res => res.json());
     // checking if card is already in DB
-    const card = await Card.findOne({ id: fetchCard.id });
+    const card = await Card.findOne({
+        // logical or for querying by id or name, preventing duplicates if alt art id doesnt match
+        $or: [
+            { id: fetchCard.id },
+            { name: fetchCard.name },
+        ]
+    });
     // extract first print info
     const originCard = await fetch(`${fetchCard.prints_search_uri}`).then(res => res.json())
     .then(fullPrintList => fullPrintList.data.at(-1)); // take only last item from json data list
