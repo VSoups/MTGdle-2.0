@@ -1,4 +1,5 @@
 // Color identifier for set options menu
+// May neet changes based on testing feedback
 const SET_COLOR_LEGEND = {
     standard: 'green',
     supplimental: 'blue',
