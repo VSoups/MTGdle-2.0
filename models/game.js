@@ -25,6 +25,7 @@ const gameSchema = new Schema({
     toJSON: { virtuals: true },
 });
 
-// maybe make virtual function to grab avg guess count? (var size = Object.keys(myObj).length;)
+// maybe make virtual function to grab avg guess count?
+// (const avgGuessNum = Object.keys(cardGuesses).length)
 
 module.exports = mongoose.model('Game', gameSchema);

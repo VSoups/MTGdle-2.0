@@ -13,10 +13,10 @@ export const Sets = [
     /*
     Example Set Obj
     {
-        name: "Bloomburrow",
-        acronym: "blb",
-        cardCount: 397, // check Scryfall set page for count
-        date: 2024-08-02,
+        name: "Duskmourn: House of Horror",
+        acronym: "dsk",
+        cardCount: 32, // check Scryfall set listings for count
+        date: 2024-09-27,
         type: SET_COLOR_LEGEND.standard,
     }
     */
@@ -50,7 +50,7 @@ export const Sets = [
         type: SET_COLOR_LEGEND.standard,
     },
     {
-        name: 'The Big Score',
+        name: 'The Big Score (OTJ)',
         acronym: 'big',
         cardCount: 95,
         date: Date('2024-04-19'),
@@ -71,7 +71,7 @@ export const Sets = [
         type: SET_COLOR_LEGEND.standard,
     },
     {
-        name: 'Ravnica: Clue Edition',
+        name: 'Ravnica: Clue Edition (MKM)',
         acronym: 'clu',
         cardCount: 284,
         date: Date('2024-02-23'),
@@ -92,7 +92,7 @@ export const Sets = [
         type: SET_COLOR_LEGEND.standard,
     },
     {
-        name: 'Jurrasic World Collection',
+        name: 'Jurrasic World Collection (LCI)',
         acronym: 'rex',
         cardCount: 45,
         date: Date('2023-11-17'),
@@ -141,13 +141,6 @@ export const Sets = [
         type: SET_COLOR_LEGEND.supplimental,
     },
     {
-        name: 'Shadows Over Innistrad Remastered',
-        acronym: 'sir',
-        cardCount: 294,
-        date: Date('2023-03-21'),
-        type: SET_COLOR_LEGEND.compilation,
-    },
-    {
         name: 'Phyrexia: All Will Be One',
         acronym: 'one',
         cardCount: 479,
@@ -176,19 +169,19 @@ export const Sets = [
         type: SET_COLOR_LEGEND.standard,
     },
     {
-        name: 'Transformers',
+        name: 'Transformers (BRO)',
         acronym: 'bot',
         cardCount: 29,
         date: Date('2022-11-18'),
         type: SET_COLOR_LEGEND.supplimental,
     },
-    {
-        name: 'Unfinity',
-        acronym: 'unf',
-        cardCount: 639,
-        date: Date('2022-10-07'),
-        type: SET_COLOR_LEGEND.un_set,
-    },
+    // {
+    //     name: 'Unfinity',
+    //     acronym: 'unf',
+    //     cardCount: 639,
+    //     date: Date('2022-10-07'),
+    //     type: SET_COLOR_LEGEND.un_set,
+    // },
     {
         name: 'Warhammer 40,000 Commander',
         acronym: '40k',
@@ -229,6 +222,20 @@ export const Sets = [
         acronym: 'neo',
         cardCount: 531,
         date: Date('2022-02-18'),
+        type: SET_COLOR_LEGEND.standard,
+    },
+    {
+        name: 'Innistrad: Crimson Vow',
+        acronym: 'vow',
+        cardCount: 423,
+        date: Date('2021-11-19'),
+        type: SET_COLOR_LEGEND.standard,
+    },
+    {
+        name: 'Innistrad: Midnight Hunt',
+        acronym: 'mid',
+        cardCount: 400,
+        date: Date('2021-10-15'),
         type: SET_COLOR_LEGEND.standard,
     },
 ]
