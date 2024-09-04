@@ -18,14 +18,15 @@ async function getCardByName(req, res) {
             { name: fetchCard.name },
         ]
     });
-    // extract first print info
-    const originCard = await fetch(`${fetchCard.prints_search_uri}`).then(res => res.json())
-    .then(fullPrintList => fullPrintList.data.at(-1)); // take only last item from json data list
 
     if (card) { // card in db
         console.log('Card found in DB: ', card.name);
         res.json(card);
     } else if (!card && fetchCard) { // create new card in db
+        // extract first print info
+        const originCard = await fetch(`${fetchCard.prints_search_uri}`).then(res => res.json())
+        .then(fullPrintList => fullPrintList.data.at(-1)); // take only last item from json data list
+        
         if (!fetchCard.image_uris) { // extract image_uris from card_faces prop
             // extract image_uris objects from each side and create a new object to contain them
             const extractedImgs = {

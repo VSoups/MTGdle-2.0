@@ -28,7 +28,8 @@ export default function GameSettings() {
         // console.log(`New List: ${newList}`);
     }
 
-    function showLegend(evt) {
+    // onClick function for HelpIcon img element
+    function showLegend() {
         legendOpen === true ? setLegendOpen(false) : setLegendOpen(true);
     }
 
@@ -40,11 +41,12 @@ export default function GameSettings() {
                     <div className="FormatSelectDiv">
                         <select id="FormatSelect">
                             <option>-- Select by format --</option>
-                            <option value="all">All (Vintage)</option>
+                            <option value="all">All (Vintage/Commander)</option>
                             <option value="standard">Standard</option>
                             <option value="pioneer">Pioneer</option>
                             <option value="modern">Modern</option>
-                            <option value="commander">Commander</option>
+                            {/* Redundant because of shared card pool with vintage? */}
+                            {/* <option value="commander">Commander</option> */}
                         </select>
                     </div>
                     <div className={legendOpen ? "SetLegend" : "SetLegend LegendOff"}>
@@ -56,11 +58,12 @@ export default function GameSettings() {
                             <li className="LegendOrange">Modern</li>
                             <li className="LegendRed">Commander</li>
                             <li className="LegendPurple">Compilation</li>
+                            {/* Might not be worth adding */}
                             {/* <li className="LegendGray">Un-Set</li> */}
                         </ul>
                     </div>
                     { Sets.map((set, key) => 
-                        <div className="SetSelectOption">
+                        <div className={`SetSelectOption ${setIncludes.includes(set.acronym) ? "Checked" : ""}`}>
                             <label htmlFor={set.acronym} style={{ color: set.type }}>{set.name}</label>
                             <input type="checkbox" value={set.acronym} onChange={handleSet} id={set.acronym} key={key} />
                         </div>

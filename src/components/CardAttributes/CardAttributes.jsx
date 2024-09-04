@@ -10,7 +10,7 @@ export default function CardAttributes({ searchCard, cardLegals, FORMAT_COLOR })
             <p><span className="InfoHeader">Mana Cost:</span> {searchCard.mana_cost || "None"}</p>
             {/* fix listing & add "None" alt */}
             <p><span className="InfoHeader">Keywords:</span> {
-                searchCard.keywords.length ? searchCard.keywords.map(kw => (`${kw} `)) : 'None'
+                searchCard.keywords.length ? searchCard.keywords.map(kw => (`${kw}, `)) : 'None'
             }</p>
             {/* taken from useEffect */}
             <p><span className="InfoHeader">Legalities:</span></p>

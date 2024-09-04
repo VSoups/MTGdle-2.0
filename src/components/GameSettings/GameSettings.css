@@ -53,6 +53,14 @@
     }
 }
 
+.SetSelectOption:hover {
+    background-color: chartreuse;
+}
+
+.SetSelectOption.Checked:hover {
+    background-color: darkred;
+}
+
 .FormatSelectDiv {
     position: absolute;
 }

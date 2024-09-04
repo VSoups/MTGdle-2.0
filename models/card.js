@@ -23,14 +23,16 @@ const cardSchema = new Schema({
     legalities: Object,
     rarity: String,
     set_name: String,
-    // reprint_count: Number,
-    // custom property that will be manually added in the backend (see controllers/api/cards.js)
+    // if split = true, don't use art crop on card grid, instead use small uri, and rotate 90deg
+    layout: String,
     first_print: Object,
     // First Print properties:
     // release_date: String, // look for released_at property in the original json
     // original_artist: String // also pull from oldest release fetch
     // image_uris: Object // same as top level property, but for the original art, eventually add every art
     // set_name: String 
+    
+    // There is a reprint property on card objects, so that might help with efficiency
 
     artist: String,
     edhrec_rank: Number, // possibly for daily randomizer? (edhrec rank >2000?)

@@ -18,6 +18,8 @@ export default function GamePage() {
     const [flip, setFlip] = useState('front');
     // state for image preview select
     const [imageSelect, setImageSelect] = useState('new');
+    // state for displaying game settings after clicking "start"
+    const [startClicked, setStartClicked] = useState(false);
     // ICEBOX: Add state to allow changing preview img art (dropdown)
     // format value colors
     const FORMAT_COLOR = {
@@ -71,12 +73,16 @@ export default function GamePage() {
         setImageSelect(evt.target.value);
     }
 
+    function startBtn() {
+        startClicked ? setStartClicked(false) : setStartClicked(true);
+    }
+
     return (
         <>
             <h1>MTGdle Unlimited</h1>
             
-            <button>Start Game</button>
-            <section className="GameSettings">
+            <button onClick={startBtn} className="StartBtn" id={startClicked ? "hidden" : "visible"}>Start Game</button>
+            <section className="GameSettings" id={startClicked ? "visible" : "hidden"} >
                 {/* Move start button here? */}
                 <GameSettings />
             </section>
