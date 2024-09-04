@@ -20,6 +20,9 @@ const gameSchema = new Schema({
     cardGuesses: { type: Object, required: true }, // take .length for total score
     // hidden card for the game
     secretCard: { type: Object, required: true },
+    
+    // ICEBOX: add hint virtual function to display card detail for user on GamePage screen
+    hintCount: Number,
 }, {
     timestamps: true,
     toJSON: { virtuals: true },

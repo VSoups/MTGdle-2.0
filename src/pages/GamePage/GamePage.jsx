@@ -20,7 +20,8 @@ export default function GamePage() {
     const [imageSelect, setImageSelect] = useState('new');
     // state for displaying game settings after clicking "start"
     const [startClicked, setStartClicked] = useState(false);
-    // ICEBOX: Add state to allow changing preview img art (dropdown)
+    // state for moving through game start steps (login > setSelect > difficulty)
+    const [optionsStep, setOptionsStep] =useState(0); // make setup process a while loop? (break after X steps)
     // format value colors
     const FORMAT_COLOR = {
         'legal': 'green',
