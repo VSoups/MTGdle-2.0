@@ -21,7 +21,7 @@ export default function GamePage() {
     // state for displaying game settings after clicking "start"
     const [startClicked, setStartClicked] = useState(false);
     // state for moving through game start steps (login > setSelect > difficulty)
-    const [optionsStep, setOptionsStep] =useState(0); // make setup process a while loop? (break after X steps)
+    const [optionsStep, setOptionsStep] = useState(0); // make SearchCard section visible after optionsStep >= X (X = whatever the last step count is)
     // format value colors
     const FORMAT_COLOR = {
         'legal': 'green',
